@@ -22,6 +22,7 @@ class HangpersonApp < Sinatra::Base
   end
   
   get '/new' do
+    #Get game index|home page
     erb :new
   end
   
