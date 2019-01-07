@@ -38,10 +38,25 @@ class HangpersonApp < Sinatra::Base
   # Use existing methods in HangpersonGame to process a guess.
   # If a guess is repeated, set flash[:message] to "You have already used that letter."
   # If a guess is invalid, set flash[:message] to "Invalid guess."
+  #
+  # params[:guess].to_s[0] or its equivalent. to_s converts nil to the empty
+  # string in case the form field was left blank (and therefore not included in params at all).
+  # [0] grabs the first character only; for an empty string, it returns an empty string.
   post '/guess' do
     letter = params[:guess].to_s[0]
-    ### YOUR CODE HERE ###
-    redirect '/show'
+    if letter.class == NilClass || letter.empty?
+      flash[:message] =  "Your input is empty." 
+      redirect '/show'
+    elsif @game.wrong_guesses.include?(letter) || @game.guesses.include?(letter)
+      flash[:message] =  "You have already used that letter." 
+      redirect '/show'
+    elsif letter =~ /\W/
+      flash[:message] = "Invalid guess."
+      redirect '/show'
+    else
+      @game.guess(letter)
+      redirect '/show'
+    end
   end
   
   # Everytime a guess is made, we should eventually end up at this route.
