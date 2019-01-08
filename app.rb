@@ -24,6 +24,9 @@ class HangpersonApp < Sinatra::Base
   
   # Get game index|home page
   get '/new' do
+    # if user request '/' will provided game obj from session if was threre
+    # the game word will be set in init state --> empty string.
+    session[:game].word = ''  
     erb :new
   end
   
@@ -82,7 +85,6 @@ class HangpersonApp < Sinatra::Base
   get '/win' do
     redirect '/show' if @game.check_win_or_lose == :play 
     redirect '/new' if @game.word.empty?  # the game state just before game start
-    # "<!DOCTYPE html><html/><head></head><body><h1>Hello World</h1></body></html>" if  @game.word.empty? 
     erb :win
     
   end
@@ -92,5 +94,4 @@ class HangpersonApp < Sinatra::Base
     redirect '/new' if @game.word.empty?  # the game state just before game start
     erb :lose
   end
-  
 end
