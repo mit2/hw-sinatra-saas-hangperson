@@ -1,0 +1,3 @@
+$ cucumber features/guess.feature
+$ bundle exec rerun -- rackup -p $PORT -o $IP
+$ bundle
