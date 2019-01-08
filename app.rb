@@ -68,6 +68,10 @@ class HangpersonApp < Sinatra::Base
   # show action that checks whether the game state it is about to show is 
   # actually a winning or losing state, and if so, it should redirect to the 
   # appropriate win or lose action.
+  
+  # While you're playing, what happens if you directly add /win to the end of
+  # your app's URL? Make sure the player cannot cheat by simply visiting GET /win.
+  # Consider how to modify the actions for win, lose, and show to prevent this behavior.
   get '/show' do
     redirect '/win' if @game.check_win_or_lose == :win
     redirect '/lose' if @game.check_win_or_lose == :lose
@@ -75,10 +79,14 @@ class HangpersonApp < Sinatra::Base
   end
   
   get '/win' do
+    redirect '/show' if @game.check_win_or_lose == :play
     erb :win
+    
+    
   end
   
   get '/lose' do
+    redirect '/show' if @game.check_win_or_lose == :play
     erb :lose
   end
   
