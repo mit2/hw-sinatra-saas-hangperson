@@ -8,6 +8,7 @@ class HangpersonApp < Sinatra::Base
   register Sinatra::Flash
   
   before do
+    # get game from session or create new one if not exist in a session
     @game = session[:game] || HangpersonGame.new('')
   end
   
@@ -79,14 +80,16 @@ class HangpersonApp < Sinatra::Base
   end
   
   get '/win' do
-    redirect '/show' if @game.check_win_or_lose == :play
+    redirect '/show' if @game.check_win_or_lose == :play 
+    redirect '/new' if @game.word.empty?  # the game state just before game start
+    # "<!DOCTYPE html><html/><head></head><body><h1>Hello World</h1></body></html>" if  @game.word.empty? 
     erb :win
-    
     
   end
   
   get '/lose' do
     redirect '/show' if @game.check_win_or_lose == :play
+    redirect '/new' if @game.word.empty?  # the game state just before game start
     erb :lose
   end
   
