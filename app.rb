@@ -24,9 +24,9 @@ class HangpersonApp < Sinatra::Base
   
   # Get game index|home page
   get '/new' do
-    # if user request '/' will provided game obj from session if was threre
+    # if user request '/' will provided game obj from session if was there
     # the game word will be set in init state --> empty string.
-    session[:game].word = ''  
+    session[:game].word = '' unless session[:game] == nil
     erb :new
   end
   
