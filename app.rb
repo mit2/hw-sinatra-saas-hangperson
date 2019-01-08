@@ -49,7 +49,7 @@ class HangpersonApp < Sinatra::Base
   post '/guess' do
     letter = params[:guess].to_s[0]  # strange but .to_s not converting here to string.
     if letter.class == NilClass || letter.empty?
-      flash[:message] =  "Your input is empty." 
+      flash[:message] =  "Invalid guess." 
       redirect '/show'
     elsif @game.wrong_guesses.include?(letter) || @game.guesses.include?(letter)
       flash[:message] =  "You have already used that letter." 
